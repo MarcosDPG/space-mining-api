@@ -15,7 +15,7 @@ def proxy():
 def conceptos_ST():
   response = {"time":"","data":{}}
   tipo = request.args.get('tipo', default="no_forzar")
-  if not os.path.exists('rss/space_track_conceptos.json') || tipo.upper() == "FORZAR":
+  if not os.path.exists('rss/space_track_conceptos.json') or tipo.upper() == "FORZAR":
     with open('rss/space_track_conceptos.json', 'w') as doc:
       datos = space_track_conceptos()
       if datos:
