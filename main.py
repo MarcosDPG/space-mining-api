@@ -1,5 +1,6 @@
 from flask import Flask, request
 from scraping import space_track_conceptos
+from datetime import datetime
 import requests
 import json
 import os
@@ -14,28 +15,38 @@ def proxy():
   return response.content, response.status_code, response.headers.items()
 @app.route('/data/conceptos/space_track', methods=['GET'])
 def conceptos_ST():
-  response = {"time":"","data":{}}
+  response = {"time":"","data":{},"type":""}
   tipo = request.args.get('tipo', default="no_forzar")
   if not os.path.exists('rss'):
     os.makedirs('rss')
   if not os.path.exists('rss/space_track_conceptos.json') or tipo.upper() == "FORZAR":
     with open('rss/space_track_conceptos.json', 'w') as doc:
       datos = space_track_conceptos()
+      response['time'] = datetime.now().strftime("%Y%m%d")
+      response['data'] = datos
+      response['type'] = "NEW"
       if datos:
-        json.dump(datos, doc)
-      response.time = "NEW"
-      response.data = datos
+        json.dump(response, doc)
   else:
     with open('rss/space_track_conceptos.json',"r+") as doc:
       datos = json.load(doc)
-      if not datos:
-        datos = space_track_conceptos()
-        json.dump(datos, doc)
-        response.time = "NEW"
-        response.data = datos
+      if not datos['data']:
+        datos['data'] = space_track_conceptos()
+        response['time'] = datetime.now().strftime("%Y%m%d")
+        response['data'] = datos['data']
+        response['type'] = "NEW"
+        json.dump(response, doc)
       else:
-        response.time = "NO_NEW"
-        response.data = datos
+        if (datetime.now().strftime("%Y%m%d") - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
+          datos['data'] = space_track_conceptos()
+          response['time'] = datetime.now().strftime("%Y%m%d")
+          response['data'] = datos['data']
+          response['type'] = "NEW"
+        else:
+          response['time'] = datos['time']
+          response['data'] = datos['data']
+          response['type'] = "no_NEW"
+      json.dump(response, doc)
   return response
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)),debug=False)
