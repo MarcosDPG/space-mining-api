@@ -22,7 +22,7 @@ def conceptos_ST():
     with open('rss/space_track_conceptos.json', 'w') as doc:
       datos = space_track_conceptos()
       if datos:
-        json.dump(datos, f)
+        json.dump(datos, doc)
       response.time = "NEW"
       response.data = datos
   else:
