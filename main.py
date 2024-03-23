@@ -15,7 +15,7 @@ def proxy():
 def conceptos_ST():
   response = {"time":"","data":{}}
   tipo = request.args.get('tipo', default="no_forzar")
-  if !os.path.exists('rss/space_track_conceptos.json') || tipo.upper() == "FORZAR":
+  if not os.path.exists('rss/space_track_conceptos.json') || tipo.upper() == "FORZAR":
     with open('rss/space_track_conceptos.json', 'w') as doc:
       datos = space_track_conceptos()
       if datos:
@@ -25,7 +25,7 @@ def conceptos_ST():
   else:
     with open('rss/space_track_conceptos.json',"r+") as doc:
       datos = json.load(doc)
-      if !datos:
+      if not datos:
         datos = space_track_conceptos()
         json.dump(datos, doc)
         response.time = "NEW"
