@@ -37,7 +37,7 @@ def conceptos_ST():
         response['type'] = "NEW"
         json.dump(response, doc)
       else:
-        if (datetime.now().strftime("%Y%m%d") - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
+        if (datetime.now() - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
           datos['data'] = space_track_conceptos()
           response['time'] = datetime.now().strftime("%Y%m%d")
           response['data'] = datos['data']
