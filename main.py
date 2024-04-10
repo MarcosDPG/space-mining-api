@@ -36,7 +36,6 @@ def conceptos_ST():
         response['time'] = datetime.now().strftime("%Y%m%d")
         response['data'] = datos['data']
         response['type'] = "NEW"
-        json.dump(response, doc)
       else:
         if (datetime.now() - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
           hilo2 = threading.Thread(target=space_track_conceptos)
