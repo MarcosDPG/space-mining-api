@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 import json
 import os
+import threading
 app = Flask(__name__)
 @app.route("/")
 def hello():
@@ -38,7 +39,7 @@ def conceptos_ST():
         json.dump(response, doc)
       else:
         if (datetime.now() - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
-          datos['data'] = space_track_conceptos()
+          hilo2 = threading.Thread(target=space_track_conceptos)
           response['time'] = datetime.now().strftime("%Y%m%d")
           response['data'] = datos['data']
           response['type'] = "NEW"
@@ -46,6 +47,7 @@ def conceptos_ST():
           response['time'] = datos['time']
           response['data'] = datos['data']
           response['type'] = "no_NEW"
+      doc.truncate(0)
       json.dump(response, doc)
   return response
 
