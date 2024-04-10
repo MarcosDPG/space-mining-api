@@ -29,7 +29,7 @@ def conceptos_ST():
       if datos:
         json.dump(response, doc)
   else:
-    with open('rss/space_track_conceptos.json',"r+") as doc:
+    with open('rss/space_track_conceptos.json',"r") as doc:
       datos = json.load(doc)
       if not datos['data']:
         datos['data'] = space_track_conceptos()
@@ -47,7 +47,7 @@ def conceptos_ST():
           response['time'] = datos['time']
           response['data'] = datos['data']
           response['type'] = "no_NEW"
-      doc.truncate(0)
+    with open('rss/space_track_conceptos.json', "w") as doc:
       json.dump(response, doc)
   return response
 
