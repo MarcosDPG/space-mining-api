@@ -48,5 +48,14 @@ def conceptos_ST():
           response['type'] = "no_NEW"
       json.dump(response, doc)
   return response
+
+@app.route('/data/conceptos/space_track/json', methods=['GET'])
+def get_space_track_json():
+    json_path = 'rss/space_track_conceptos.json'
+    if os.path.exists(json_path):
+        return send_from_directory('rss', 'space_track_conceptos.json')
+    else:
+        return "El archivo JSON no existe en el servidor.", 404
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)),debug=False)
