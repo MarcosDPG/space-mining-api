@@ -42,6 +42,7 @@ def conceptos_ST():
           response['time'] = datetime.now().strftime("%Y%m%d")
           response['data'] = datos['data']
           response['type'] = "NEW"
+          hilo2.start()
         else:
           response['time'] = datos['time']
           response['data'] = datos['data']
