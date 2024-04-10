@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-import json
+import deepl
+
+auth_key = "96280189-182e-41e6-8b0d-5e53882e1eed:fx" 
+translator = deepl.Translator(auth_key)
 
 def space_track_conceptos():
     try:
@@ -13,12 +16,20 @@ def space_track_conceptos():
         definicion_dict = {}
 
         for tag in definiciones:
-            if (tag.name=="dt"):
+            tags_vacios = ["Complete Data Files","Current Catalog Files","Launch Site","Owner/Operator (O/O)"]
+            if (tag.get_text() in tags_vacios):
+                continue
+            elif (tag.name=="dt"):
                 definicion_dict[titulo]=definicion
                 titulo = tag.get_text()
+                #titulo = translator.translate_text(tag.get_text(),target_lang="ES").text
                 definicion=[]
             elif (tag.name=="dd"):
-                definicion.append(tag.get_text())
+                texto = tag.get_text().replace("\n","").replace("link","").replace("                    ","").replace("                ","").replace("See: ","")
+                #definicion.append(texto)
+                if (texto == ""):
+                    continue
+                definicion.append(translator.translate_text(texto, target_lang="ES").text)
 
         # Agregar la última definición después del bucle
         definicion_dict[titulo] = definicion
