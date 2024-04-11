@@ -37,19 +37,30 @@ def conceptos_ST():
         response['data'] = datos['data']
         response['type'] = "NEW"
       else:
-        if (datetime.now() - datetime.strptime(datos['time'], "%Y%m%d")).days >=1 :
-          hilo2 = threading.Thread(target=space_track_conceptos)
+        if (datetime.now() - datetime.strptime(datos['time'], "%Y%m%d")).days >=7 :
           response['time'] = datetime.now().strftime("%Y%m%d")
           response['data'] = datos['data']
           response['type'] = "NEW"
-          hilo2.start()
         else:
           response['time'] = datos['time']
           response['data'] = datos['data']
           response['type'] = "no_NEW"
     with open('rss/space_track_conceptos.json', "w") as doc:
-      json.dump(response, doc)
+          json.dump(response, doc)
+    if(response['type'] == "NEW"):
+      hilo2 = threading.Thread(target=traducirSegundoPlano, args=(response,))
+      hilo2.start()
   return response
+
+def traducirSegundoPlano(response):
+  response_copia = response
+  try:
+    response['data'] = space_track_conceptos()
+  except:
+     response['data'] = response_copia['data']
+  finally:
+    with open('rss/space_track_conceptos.json', "w") as doc:
+            json.dump(response, doc)
 
 @app.route('/data/conceptos/space_track/json', methods=['GET'])
 def get_space_track_json():
