@@ -23,8 +23,9 @@ def conceptos_ST():
   tipo = request.args.get('tipo', default="no_forzar")
   if not os.path.exists('rss'):
     os.makedirs('rss')
-  if not os.path.exists('rss/space_track_conceptos.json') or tipo.upper() == "FORZAR":
-    with open('rss/space_track_conceptos.json', 'w') as doc:
+    os.makedirs('rss/filesjson')
+  if not os.path.exists('rss/filesjson/space_track_conceptos.json') or tipo.upper() == "FORZAR":
+    with open('rss/filesjson/space_track_conceptos.json', 'w') as doc:
       datos = space_track_conceptos()
       response['time'] = datetime.now().strftime("%Y%m%d")
       response['data'] = datos
@@ -32,7 +33,7 @@ def conceptos_ST():
       if datos:
         json.dump(response, doc)
   else:
-    with open('rss/space_track_conceptos.json',"r") as doc:
+    with open('rss/filesjson/space_track_conceptos.json',"r") as doc:
       datos = json.load(doc)
       if not datos['data']:
         datos['data'] = space_track_conceptos()
@@ -48,7 +49,7 @@ def conceptos_ST():
           response['time'] = datos['time']
           response['data'] = datos['data']
           response['type'] = "no_NEW"
-    with open('rss/space_track_conceptos.json', "w") as doc:
+    with open('rss/filesjson/space_track_conceptos.json', "w") as doc:
           json.dump(response, doc)
     if(response['type'] == "NEW"):
       hilo2 = threading.Thread(target=traducirSegundoPlano, args=(response,))
@@ -62,16 +63,8 @@ def traducirSegundoPlano(response):
   except:
      response['data'] = response_copia['data']
   finally:
-    with open('rss/space_track_conceptos.json', "w") as doc:
+    with open('rss/filesjson/space_track_conceptos.json', "w") as doc:
             json.dump(response, doc)
-
-@app.route('/data/conceptos/space_track/json', methods=['GET'])
-def get_space_track_json():
-    json_path = 'rss/space_track_conceptos.json'
-    if os.path.exists(json_path):
-        return send_from_directory('rss', 'space_track_conceptos.json')
-    else:
-        return "El archivo JSON no existe en el servidor.", 404
 
 @app.route("/data/images/update")
 def update_images():
@@ -203,6 +196,16 @@ def update_files(forzar = True):
         except Exception as e:
             retorno = e.args[0]
     return retorno
+
+
+@app.route('/data/files/<type>/<filejson>', methods=['GET'])
+def get_file(type,filejson):
+    json_path = f'rss/files{type}/{filejson}'
+    if os.path.exists(json_path):
+        return send_from_directory(f'rss/files{type}', filejson)
+    else:
+        return f"El archivo {type} no existe en el servidor.", 404
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)),debug=False)
