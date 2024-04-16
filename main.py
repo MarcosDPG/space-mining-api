@@ -92,10 +92,10 @@ def get_images():
     orbita = request.args.get('orbita',default="None")
     grafico = request.args.get('grafico',default="None")
     ejes = request.args.get('ejes',default="None")
-    if(os.path.exists(f"rss/images/{orbita.upper()}/{grafico}/{ejes.upper()}.svg")):
-        return send_file(f"rss/images/{orbita.upper()}/{grafico}/{ejes.upper()}.svg")
+    if(os.path.exists(f"rss/images/{orbita.upper()}/{grafico}/{ejes.upper()}.png")):
+        return send_file(f"rss/images/{orbita.upper()}/{grafico}/{ejes.upper()}.png")
     else:
-        return send_file('error.svg')
+        return send_file('error.png')
 
 def exitenJson():
     urli = "rss/filesjson/detalles-in-orbit.json"

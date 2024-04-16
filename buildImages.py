@@ -12,7 +12,7 @@ def generarImagenes(forzar = False):
         datos = {}
         with open(urli) as archivo:
             datos = json.load(archivo)
-        if ((datetime.now() - datetime.strptime(datos['date'], "%Y%m%d")).days < 1) and not forzar :
+        if ((datetime.now() - datetime.strptime(datos['date'], "%Y%m%d")).days < 8) and not forzar :
             with open(urli,"w") as archivo:
                 datos["type"] = "noNew"
                 json.dump(datos,archivo)
@@ -59,20 +59,20 @@ def crearImagenes(df,pathe):
             plt.scatter(df[colums_graficar[columna]],df[colums_graficar[grafica]],alpha = 0.4)
             plt.xlabel(colums_graficar[columna])
             plt.ylabel(colums_graficar[grafica])
-            if(os.path.exists(f"{pathe}/0/{chr(ord('A') + letra)}.svg")):
-                os.remove(f"{pathe}/0/{chr(ord('A') + letra)}.svg")
-            plt.savefig(f"{pathe}/0/{chr(ord('A') + letra)}.svg", bbox_inches='tight',format="svg")
+            if(os.path.exists(f"{pathe}/0/{chr(ord('A') + letra)}.png")):
+                os.remove(f"{pathe}/0/{chr(ord('A') + letra)}.png")
+            plt.savefig(f"{pathe}/0/{chr(ord('A') + letra)}.png", bbox_inches='tight',format="png")
             plt.clf()
-            #plt.savefig(f"{pathe}/0/{chr(ord('a') + letra).upper}.svg", bbox_inches='tight')
+            #plt.savefig(f"{pathe}/0/{chr(ord('a') + letra).upper}.png", bbox_inches='tight')
             letra += 1
     if pathe.endswith("F"):
         for colunma in colums_graficar:
             plt.scatter(df["DAYS_IN_ORBIT"],df[colunma],alpha = 0.4)
             plt.xlabel("DAYS_IN_ORBIT")
             plt.ylabel(colunma)
-            if(os.path.exists(f"{pathe}/0/{chr(ord('A') + letra)}.svg")):
-                os.remove(f"{pathe}/0/{chr(ord('A') + letra)}.svg")
-            plt.savefig(f"{pathe}/0/{chr(ord('A') + letra)}.svg", bbox_inches='tight',format="svg")
+            if(os.path.exists(f"{pathe}/0/{chr(ord('A') + letra)}.png")):
+                os.remove(f"{pathe}/0/{chr(ord('A') + letra)}.png")
+            plt.savefig(f"{pathe}/0/{chr(ord('A') + letra)}.png", bbox_inches='tight',format="png")
             plt.clf()
             letra += 1
         colums_graficar.append("DAYS_IN_ORBIT")
@@ -84,9 +84,9 @@ def crearImagenes(df,pathe):
         plt.bar(df_n['RCS_SIZE'] ,height = df_n[columna] ,edgecolor='black') 
         plt.xlabel('RCS_SIZE')
         plt.ylabel(columna)  
-        if(os.path.exists(f"{pathe}/1/{chr(ord('A') + letra)}.svg")):
-            os.remove(f"{pathe}/1/{chr(ord('A') + letra)}.svg")
-        plt.savefig(f"{pathe}/1/{chr(ord('A') + letra)}.svg", bbox_inches='tight',format="svg")
+        if(os.path.exists(f"{pathe}/1/{chr(ord('A') + letra)}.png")):
+            os.remove(f"{pathe}/1/{chr(ord('A') + letra)}.png")
+        plt.savefig(f"{pathe}/1/{chr(ord('A') + letra)}.png", bbox_inches='tight',format="png")
         plt.clf() 
         letra += 1
     
@@ -96,9 +96,9 @@ def crearImagenes(df,pathe):
     rcs_size_counts = df['RCS_SIZE'].value_counts()
     plt.pie(rcs_size_counts, labels=rcs_size_counts.index, autopct='%1.1f%%', startangle=140)
     plt.axis('equal')
-    if(os.path.exists(f"{pathe}/2/{chr(ord('A') + letra)}.svg")):
-        os.remove(f"{pathe}/2/{chr(ord('A') + letra)}.svg")
-    plt.savefig(f"{pathe}/2/{chr(ord('A') + letra)}.svg", bbox_inches='tight',format="svg")
+    if(os.path.exists(f"{pathe}/2/{chr(ord('A') + letra)}.png")):
+        os.remove(f"{pathe}/2/{chr(ord('A') + letra)}.png")
+    plt.savefig(f"{pathe}/2/{chr(ord('A') + letra)}.png", bbox_inches='tight',format="png")
     plt.clf() 
 
     #Se realiza el histograma 
@@ -106,9 +106,9 @@ def crearImagenes(df,pathe):
         plt.hist(df[columna],edgecolor='black')
         plt.xlabel(columna)
         plt.ylabel("Frecuencia")  
-        if(os.path.exists(f"{pathe}/3/{chr(ord('A') + letra)}.svg")):
-            os.remove(f"{pathe}/3/{chr(ord('A') + letra)}.svg")
-        plt.savefig(f"{pathe}/3/{chr(ord('A') + letra)}.svg", bbox_inches='tight',format="svg")
+        if(os.path.exists(f"{pathe}/3/{chr(ord('A') + letra)}.png")):
+            os.remove(f"{pathe}/3/{chr(ord('A') + letra)}.png")
+        plt.savefig(f"{pathe}/3/{chr(ord('A') + letra)}.png", bbox_inches='tight',format="png")
         plt.clf() 
         letra += 1
 
