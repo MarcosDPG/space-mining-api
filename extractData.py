@@ -70,3 +70,27 @@ def limpiarDf(df_i):
     else:
         df_i = df_i[((df_i['PERIOD']<120) & (df_i['APOGEE']<800) & (df_i['PERIGEE']<800))]
     return df_i
+
+def traerRows(n,data):
+    try:
+        df = pd.read_csv(data)
+        df = df[['OBJECT_ID', 'APOGEE', 'PERIOD', 'PERIGEE', 'INCLINATION']]
+        # Verificar si n es mayor que la longitud del DataFrame
+        if n > len(df):
+            raise ValueError('La cantidad de registros solicitados es mayor que la longitud del DataFrame')
+        # elegir aleatoriamente n filas y guardarlas en un diccionario
+        df_dict = df.sample(n).to_dict(orient='records')
+        # Convertir el diccionario a JSON
+        df_json = json.dumps(df_dict)
+        return df_json
+    except Exception as e:
+        # Manejar la excepción y devolver un JSON con error
+        error_dict = {
+            "OBJECT_ID": "error",
+            "APOGEE": "error",
+            "PERIOD": "error",
+            "PERIGEE": "error",
+            "INCLINATION": "error"
+        }
+        error_json = json.dumps([error_dict] * n)
+        return error_json

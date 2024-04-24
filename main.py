@@ -1,6 +1,7 @@
 from flask import Flask, request, send_from_directory, send_file
 from scraping import space_track_conceptos
 from datetime import datetime
+from io import BytesIO
 import requests
 import json
 import os
@@ -199,12 +200,20 @@ def update_files(forzar = True):
 
 
 @app.route('/data/files/<type>/<filejson>', methods=['GET'])
-def get_file(type,filejson):
+def get_file_rows(type,filejson):
     json_path = f'rss/files{type}/{filejson}'
     if os.path.exists(json_path):
         return send_from_directory(f'rss/files{type}', filejson)
     else:
         return f"El archivo {type} no existe en el servidor.", 404
+    
+@app.route('/data/files/rows/<n_rows>/<csv>', methods=['GET'])
+def get_file(n_rows,csv):
+    json_data = extractData.traerRows(int(n_rows),f'rss/filescsv/{csv}')
+    # Convertir el JSON a un objeto BytesIO
+    json_bytesio = BytesIO(json_data.encode())
+    # Enviar el BytesIO como archivo adjunto
+    return send_file(json_bytesio, as_attachment=True, download_name='resultado.json')
 
 
 if __name__ == '__main__':
