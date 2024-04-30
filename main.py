@@ -217,11 +217,11 @@ def get_file(n_rows,csv):
 
 @app.route('/data/files/apk/<file>', methods=['GET'])
 def get_file_apk(file):
-    path = f"/rss/filesapk/{file}"
+    path = f"rss/filesapk/{file}"
     if os.path.exists(path):
         return send_file(path, as_attachment=True, download_name='space-mining.apk')
     else:
-        return f"El archivo {type} no existe en el servidor.", 404
+        return f"El archivo no existe en el servidor.", 404
 
 
 if __name__ == '__main__':
