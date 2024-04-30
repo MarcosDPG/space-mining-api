@@ -215,9 +215,13 @@ def get_file(n_rows,csv):
     # Enviar el BytesIO como archivo adjunto
     return send_file(json_bytesio, as_attachment=True, download_name='resultado.json')
 
-@app.route('/data/files/apk', methods=['GET'])
-def get_file_apk():
-    return send_file("/rss/filesapk/space-mining.apk", as_attachment=True, download_name='space-mining.apk')
+@app.route('/data/files/apk/<file>', methods=['GET'])
+def get_file_apk(file):
+    path = f"/rss/filesapk/{file}"
+    if os.path.exists(path):
+        return send_file(path, as_attachment=True, download_name='space-mining.apk')
+    else:
+        return f"El archivo {type} no existe en el servidor.", 404
 
 
 if __name__ == '__main__':
