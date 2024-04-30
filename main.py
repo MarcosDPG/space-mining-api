@@ -215,6 +215,10 @@ def get_file(n_rows,csv):
     # Enviar el BytesIO como archivo adjunto
     return send_file(json_bytesio, as_attachment=True, download_name='resultado.json')
 
+@app.route('/data/files/apk', methods=['GET'])
+def get_file_apk():
+    return send_file("/rss/filesapk/space-mining.apk", as_attachment=True, download_name='space-mining.apk')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)),debug=False)
