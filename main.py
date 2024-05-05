@@ -8,7 +8,6 @@ import os
 import threading
 import extractData
 import buildImages
-import configparser
 
 app = Flask(__name__)
 @app.route("/")
@@ -176,10 +175,8 @@ def update_files(forzar = True):
         noinActualizar = True
 
     if(inActualizar or noinActualizar):
-        config = configparser.ConfigParser()
-        config.read("./config/SpaceMining.ini")
-        configUsr = config["configuration"]["username"]
-        configPwd = config["configuration"]["password"]
+        configUsr = os.getenv("USERNAME_SPACE_TRACK")
+        configPwd = os.getenv("PASSWORD_SPACE_TRACK")
         siteCred = {'identity': configUsr, 'password': configPwd}
 
         uriBase                = "https://www.space-track.org"
