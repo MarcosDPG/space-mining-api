@@ -12,12 +12,15 @@ def generarImagenes(forzar = False):
         datos = {}
         with open(urli) as archivo:
             datos = json.load(archivo)
-        if ((datetime.now() - datetime.strptime(datos['date'], "%Y%m%d")).days < 8) and not forzar :
+        if ((datetime.now() - datetime.strptime(datos['date'], "%Y%m%d")).days < 7) and not forzar :
             with open(urli,"w") as archivo:
                 datos["type"] = "noNew"
                 json.dump(datos,archivo)
             return "No se tiene que graficar aún"
-
+        else:
+             with open(urli,"w") as archivo:
+                datos["type"] = "New"
+                json.dump(datos,archivo)
     patht = "rss/images/T"
     pathf = "rss/images/F"
     if(not os.path.exists("rss/images/")):

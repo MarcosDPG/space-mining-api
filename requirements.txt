@@ -5,3 +5,4 @@ Werkzeug==2.2.2
 deepl==1.17.0
 matplotlib==3.8.0
 pandas==2.1.4
+configparser==7.0.0

@@ -1,8 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 import deepl
+import configparser
 
-auth_key = "96280189-182e-41e6-8b0d-5e53882e1eed:fx" 
+config = configparser.ConfigParser()
+config.read("./config/SpaceMining.ini")
+
+auth_key = config["configuration"]["auth_key"]
 translator = deepl.Translator(auth_key)
 
 def space_track_conceptos():
