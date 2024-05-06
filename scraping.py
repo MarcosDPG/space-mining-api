@@ -2,10 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import deepl
 import os
-import configparser
-
-config = configparser.ConfigParser()
-config.read("./config/SpaceMining.ini")
 
 auth_key = os.getenv("AUTH_KEY")
 translator = deepl.Translator(auth_key)

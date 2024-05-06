@@ -12,12 +12,7 @@ import buildImages
 app = Flask(__name__)
 @app.route("/")
 def hello():
-  return "API de SPACE MINIG en desarrollo."
-@app.route('/data', methods=['GET'])
-def proxy():
-  url = request.args.get('url')
-  response = requests.get(url)
-  return response.content, response.status_code, response.headers.items()
+  return "API de SPACE MINIG en tu disposicion."
 @app.route('/data/conceptos/space_track', methods=['GET'])
 def conceptos_ST():
   response = {"time":"","data":{},"type":""}
@@ -200,11 +195,11 @@ def update_files(forzar = True):
     return retorno
 
 
-@app.route('/data/files/<type>/<filejson>', methods=['GET'])
-def get_file_rows(type,filejson):
-    json_path = f'rss/files{type}/{filejson}'
+@app.route('/data/files/<type>/<file>', methods=['GET'])
+def get_file_rows(type,file):
+    json_path = f'rss/files{type}/{file}'
     if os.path.exists(json_path):
-        return send_from_directory(f'rss/files{type}', filejson)
+        return send_from_directory(f'rss/files{type}', file)
     else:
         return f"El archivo {type} no existe en el servidor.", 404
     
