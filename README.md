@@ -1,6 +1,8 @@
 # API de SPACE MINIG
 API en desarrollo para la aplicación de SPACE MINIG (proyecto alojado en el repositorio [SpaceMiningApp](https://github.com/codeuler/SpaceMiningApp.git))
 
+![](https://github.com/MarcosDPG/space-mining-api/assets/127441963/6ae15b37-9986-41a5-9198-2e0bebb218ef)
+
 ## Descripción
 Esta API proporciona funcionalidades para interactuar con la aplicación SPACE MINIG. Permite realizar consultas, obtener datos relacionados con el espacio y generar imágenes para su análisis.
 #### Arquitectura y Flujo de Datos
